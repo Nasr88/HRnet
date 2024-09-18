@@ -1,8 +1,8 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import Home from "./pages/Home";
-import EmployeeList from "./pages/EmployeeList";
+import Home from "./pages/home/Home";
+import EmployeeList from "./pages/employeeList/EmployeeList";
 
 function Router() {
 	return (
