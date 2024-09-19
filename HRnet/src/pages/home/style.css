@@ -20,29 +20,96 @@
     flex-direction: column;
   }
 
+/* style.css */
 
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f4f7f6;
+}
 
-  
-  /* Style pour les labels */
-  label {
-    font-size: 16px;
-    color: #333;
-    margin-bottom: 5px;
-  }
-  
-  /* Style pour le select */
-  select {
-    padding: 10px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    width: 100%; /* Utilise toute la largeur disponible */
-    background-color: #f9f9f9;
-    transition: border-color 0.3s ease;
-  }
-  
-  select:focus {
-    border-color: #3498db; /* Changement de couleur à la mise au focus */
-    outline: none; /* Supprime le contour par défaut */
-  }
-  
+form {
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 100%;
+  max-width: 600px;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #333;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="number"],
+select {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 16px;
+  font-size: 16px;
+}
+
+input[type="text"]:focus,
+input[type="date"]:focus,
+input[type="number"]:focus,
+select:focus {
+  border-color: #0056b3;
+  outline: none;
+}
+
+button {
+  background-color: #007bff;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+fieldset {
+  /* margin-bottom: 16px;
+  padding: 5px;
+  border: 1px solid #ceacac; */
+  border: 2px solid #007bff;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+legend {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+address {
+  margin-bottom: 16px;
+ 
+}
+
+.dropdown-container {
+  margin-bottom: 16px;
+}
+
+.dropdown-container label {
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #333;
+}
