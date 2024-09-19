@@ -1,0 +1,72 @@
+/* Container global du dropdown */
+.dropdown-container {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+}
+
+/* Style du label */
+.dropdown-label {
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+/* Conteneur principal du dropdown */
+.dropdown {
+  position: relative;
+  /* width: 100%; */
+  padding: 10px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Texte affiché dans le dropdown */
+.dropdown-selected {
+  font-size: 16px;
+  color: #333;
+}
+
+/* Icône du dropdown */
+.dropdown-icon {
+  font-size: 12px;
+  transition: transform 0.3s ease;
+}
+
+/* Rotation de l'icône lorsque le menu est ouvert */
+.dropdown-icon.open {
+  transform: rotate(180deg);
+}
+
+/* Liste déroulante */
+.dropdown-menu {
+  position: absolute;
+  top:70%;
+  /* left: 0;
+  width: 100%; */
+  max-height: 200px;
+  overflow-y: auto;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding:0;
+  z-index: 1000;
+  width: inherit;
+}
+
+/* Éléments de la liste */
+.dropdown-menu li {
+  padding: 10px;
+  cursor: pointer;
+  list-style: none;
+  background-color: white;
+}
+
+/* Hover sur les éléments */
+.dropdown-menu li:hover {
+  background-color: #e6e6e6;
+}

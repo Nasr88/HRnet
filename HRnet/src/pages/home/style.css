@@ -1,8 +1,17 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+/* Style général pour le conteneur du formulaire */
 #create-employee {
     display: flex;
     flex-direction: column;
-    align-items:center;
     justify-content: center;
+    gap: 15px; /* Espacement entre les éléments */
+    margin: 0 auto; /* Centrer le formulaire */
+
   }
 
   .address{
@@ -10,3 +19,30 @@
     display: flex;
     flex-direction: column;
   }
+
+
+
+  
+  /* Style pour les labels */
+  label {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 5px;
+  }
+  
+  /* Style pour le select */
+  select {
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%; /* Utilise toute la largeur disponible */
+    background-color: #f9f9f9;
+    transition: border-color 0.3s ease;
+  }
+  
+  select:focus {
+    border-color: #3498db; /* Changement de couleur à la mise au focus */
+    outline: none; /* Supprime le contour par défaut */
+  }
+  

@@ -4,6 +4,7 @@ import React from "react";
 import './style.css';
 import DropdownComponent from "../../components/dropdownComponent/DropdownComponent";
 import { states } from "../../datas/states";
+import { departments } from "../../datas/departments";
 
 
 export default function Home() {
@@ -43,7 +44,7 @@ export default function Home() {
 
 
   return (
-  
+  <div className="container">
     <form action="#"  id="create-employee">
       <label htmlFor="first-name">First Name</label>
       <input
@@ -130,8 +131,8 @@ export default function Home() {
           value={employee?.Adress?.City || ""}
         />
 
-        <label htmlFor="state">State</label>
-        <select
+        
+        {/* <select
           name="state"
           id="state"
           onChange={(e) => {
@@ -140,17 +141,34 @@ export default function Home() {
                 ...employee,
                 Adress: {
                   ...employee.Adress,
-                  State: e.target.value
-                }
+                  State: e.target.value,
+                },
               });
             }
           }}
           value={employee?.Adress?.State || ""}
         >
-          {/* Add state options here */}
-        </select>
-        <DropdownComponent options={states}></DropdownComponent>
-        <label htmlFor="zip-code">Zip Code</label>
+          {states.map((state) => (
+            <option key={state.abbreviation} value={state.name}>
+              {state.name}
+            </option>
+          ))}
+        </select> */}
+        <label>State</label>
+        <DropdownComponent 
+        options={states} 
+        onSelect={(selected) => {
+          setEmployee({
+            ...employee,
+            Adress: {
+              ...employee?.Adress,
+              State: selected.name
+            }
+          });
+        }} 
+      />
+
+<label htmlFor="zip-code">Zip Code</label>
         <input
           id="zip-code"
           type="number"
@@ -169,29 +187,19 @@ export default function Home() {
         />
       </fieldset>
 
-      <label htmlFor="department">Department</label>
-      <select
-        name="department"
-        id="department"
-        onChange={(e) => {
-          if (employee) {
-            setEmployee({
-              ...employee,
-              Departement: e.target.value
-            });
-          }
-        }}
-        value={employee?.Departement || ""}
-      >
-        <option>Sales</option>
-        <option>Marketing</option>
-        <option>Engineering</option>
-        <option>Human Resources</option>
-        <option>Legal</option>
-      </select>
+      <label>Department</label>
+      <DropdownComponent 
+        options={departments} 
+        onSelect={(selected) => {
+          setEmployee({
+            ...employee,
+              Departement:selected.name
+          });
+        }} 
+      />
       <button type="button" onClick={createEmployee}>TEST</button>
     </form>
-  
+  </div>
   );
 }
 
