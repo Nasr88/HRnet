@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { IEmployee } from "../../models/IEmployee";
 import React from "react";
+import './style.css';
+import DropdownComponent from "../../components/dropdownComponent/DropdownComponent";
+import { states } from "../../datas/states";
 
 
 export default function Home() {
@@ -33,12 +36,15 @@ export default function Home() {
       console.log(employee);
     }
   };
-  
-useEffect(()=>{
-console.log(employee)
-},[employee])
+
+// useEffect(()=>{
+// console.log(employee)
+// },[employee])
+
+
   return (
-    <form action="#" id="create-employee">
+  
+    <form action="#"  id="create-employee">
       <label htmlFor="first-name">First Name</label>
       <input
         type="text"
@@ -143,7 +149,7 @@ console.log(employee)
         >
           {/* Add state options here */}
         </select>
-
+        <DropdownComponent options={states}></DropdownComponent>
         <label htmlFor="zip-code">Zip Code</label>
         <input
           id="zip-code"
@@ -185,6 +191,7 @@ console.log(employee)
       </select>
       <button type="button" onClick={createEmployee}>TEST</button>
     </form>
+  
   );
 }
 

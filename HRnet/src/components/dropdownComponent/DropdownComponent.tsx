@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 
 const Dropdown = ({ options, onSelect }) => {
   const [isOpen, setIsOpen] = useState(false); //Gérer l'état d'ouverture/fermeture du dropdown
@@ -23,8 +24,8 @@ const Dropdown = ({ options, onSelect }) => {
       {isOpen && (
         <ul className="dropdown-menu">
           {options.map((option, index) => (
-            <li key={index} onClick={() => handleSelect(option)}>
-              {option}
+            <li key={index} onClick={() => handleSelect(option.abreviation)}>
+              {option.name}
             </li>
           ))}
         </ul>
@@ -34,7 +35,7 @@ const Dropdown = ({ options, onSelect }) => {
 };
 
 Dropdown.propTypes = {
-  options: PropTypes.arrayOf(PropTypes.string).isRequired, // options doit être un tableau de chaînes de caractères
+  options: PropTypes.arrayOf(PropTypes.any).isRequired, // options doit être un tableau de chaînes de caractères
   onSelect: PropTypes.func.isRequired,                    // onSelect doit être une fonction
 };
 
