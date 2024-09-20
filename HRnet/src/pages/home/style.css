@@ -113,3 +113,12 @@ address {
   font-weight: 600;
   color: #333;
 }
+
+.startDate{
+  width: calc(100% - 20px);
+}
+
+.react-datepicker__input-container {
+ 
+  height: 40px !important;
+}
