@@ -4,10 +4,13 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/home/Home";
 import EmployeeList from "./pages/employeeList/EmployeeList";
 
+import Header from "./components/header/Header";
+
 function Router() {
 	return (
 		<React.StrictMode>
 			<BrowserRouter>
+				<Header/>
 				<Routes>
 					<Route exact path="/" element={<Home />} />
 					<Route exact path="/employee-list" element={<EmployeeList />} />

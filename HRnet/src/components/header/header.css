@@ -1,0 +1,72 @@
+/* General Header Styles */
+.header {
+  background-color: #ffffff; /* Light background for the header */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 2rem;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Logo Container */
+.logo img {
+  width: 80px; 
+  height: auto;
+}
+
+/* Nav Styles */
+.nav {
+  background-color: transparent; /* Keep navigation background transparent */
+  padding: 0; /* Remove extra padding */
+}
+
+.nav-list {
+  list-style: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-item {
+  margin-right: 1.5rem;
+}
+
+.nav-link {
+  color: #333;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.nav-link:hover {
+  background-color: #e9ecef;
+  color: #007bff; /* Hover color */
+  border-radius: 5px;
+}
+
+.nav-link.active {
+  background-color: #007bff;
+  color: white;
+  border-radius: 5px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .header {
+      flex-direction: column;
+      align-items: flex-start;
+  }
+
+  .logo {
+      margin-bottom: 1rem;
+  }
+
+  .nav-list {
+      flex-direction: column;
+  }
+
+  .nav-item {
+      margin-bottom: 1rem;
+  }
+}

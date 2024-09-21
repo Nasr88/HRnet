@@ -9,6 +9,10 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { registerLocale } from "react-datepicker";
 import {fr} from "date-fns/locale/fr";  // Importe la localisation française
+import { storageManagement } from '../../helper/storageManagement'; // Importez la classe
+
+ // Instance de la classe storageManagement
+ const storage = new storageManagement();
 
 // Enregistre la localisation française
 registerLocale("fr", fr);
@@ -37,11 +41,10 @@ export default function Home() {
     }
   };
 
-  // Fonction pour créer ou traiter l'employé
+  // Fonction pour créer ou ajouter un employé au localStorage
   const createEmployee = () => {
-    if (employee) {
-      console.log(employee);
-    }
+    storage.addEmployee(employee); // Ajoute l'employé au localStorage
+    console.log("Employee saved successfully!");
   };
 
 
