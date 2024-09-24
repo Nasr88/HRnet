@@ -10,6 +10,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import { registerLocale } from "react-datepicker";
 import {fr} from "date-fns/locale/fr";  // Importe la localisation française
 import { storageManagement } from '../../helper/storageManagement'; // Importez la classe
+import AlertModal from "../../components/alertModal/AlertModal";
+import { differenceInYears } from "date-fns";
 
  // Instance de la classe storageManagement
  const storage = new storageManagement();
@@ -21,6 +23,28 @@ export default function Home() {
   // Initialise l'état avec un objet de type IEmployee ou null
   const [employee, setEmployee] = useState<IEmployee | null>(null);
 
+  const [modalMessage, setModalMessage] = useState(''); 
+
+
+  /******************pour vérifier que l'employee a min 18 ans****************/
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const handleBirthDateChange = (date) => {
+    const today = new Date();
+    const age = differenceInYears(today, date);
+
+    // Vérifier si l'âge est inférieur à 18 ans
+    if (age < 18) {
+      setErrorMessage("L'employé doit avoir au moins 18 ans.");
+    } else {
+      setErrorMessage(""); // Réinitialiser le message d'erreur s'il a plus de 18 ans
+      setEmployee({
+        ...employee,
+        BirthDate: date
+      });
+    }
+  };
+/*******************************************************************************/
   // Fonction pour gérer les changements dans le prénom
   const onChangeFirstName = (e) => {
     
@@ -45,18 +69,24 @@ export default function Home() {
   const createEmployee = () => {
     storage.addEmployee(employee); // Ajoute l'employé au localStorage
     console.log("Employee saved successfully!");
+    setModalMessage("Employee saved successfully!"); // Affiche la modal
+    setEmployee(null);
   };
 
+  const closeModal = () => {
+    setModalMessage(''); // Ferme la modal en effaçant le message
+  };
 
   return (
   <div className="container">
-    <form action="#"  id="create-employee">
+    <form action="#"  id="create-employee" onSubmit= {createEmployee}>
       <label htmlFor="first-name">First Name</label>
       <input
         type="text"
         id="first-name"
         onChange={onChangeFirstName}
         value={employee?.FirstName || ""}
+        required
       />
 
       <label htmlFor="last-name">Last Name</label>
@@ -65,23 +95,18 @@ export default function Home() {
         id="last-name"
         onChange={onChangeLastName}
         value={employee?.LastName || ""}
+        required
       />
 
       <label>Date of Birth</label>
       <DatePicker className="startDate"
         selected={employee?.BirthDate || null}
-        onChange={(date: Date) => {
-         
-             setEmployee({
-              ...employee,
-              BirthDate: date
-            });
-          
-        }}
+        onChange={handleBirthDateChange}
         dateFormat="dd/MM/yyyy"
         placeholderText="Sélectionner une date"
         isClearable={true}
         locale="fr"  // Applique la localisation française
+        required
       />
 
        <label>Start Date</label>
@@ -97,6 +122,7 @@ export default function Home() {
         placeholderText="Sélectionner une date"
         isClearable={true}
         locale="fr"  // Applique la localisation française
+        required
       /> 
 
       <fieldset className="address">
@@ -117,6 +143,7 @@ export default function Home() {
             }
           }}
           value={employee?.Adress?.Street || ""}
+          required
         />
 
         <label htmlFor="city">City</label>
@@ -135,6 +162,7 @@ export default function Home() {
             }
           }}
           value={employee?.Adress?.City || ""}
+          required
         />
 
         <label>State</label>
@@ -149,7 +177,8 @@ export default function Home() {
             }
           });
         }} 
-      />
+        required={true}
+        />
 
 <label htmlFor="zip-code">Zip Code</label>
         <input
@@ -179,9 +208,12 @@ export default function Home() {
               Departement:selected.name
           });
         }} 
+        required={true}
       />
-      <button type="button" onClick={createEmployee}>TEST</button>
+      <button type="submit">Save</button>
+      
     </form>
+    <AlertModal message={modalMessage} onClose={closeModal} />
   </div>
   );
 }

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import './dropdown.css';
 
-const Dropdown = ({ options, onSelect }) => {
+const Dropdown = ({ options, onSelect, required }) => {
   // État pour suivre si le menu déroulant est ouvert ou fermé
   const [isOpen, setIsOpen] = useState(false); 
   
@@ -39,6 +39,7 @@ const Dropdown = ({ options, onSelect }) => {
         ))}
       </ul>
     )}
+
   </div>
 );
 };
