@@ -1,14 +1,23 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import React from 'react';
 import './dropdown.css';
 
-const Dropdown = ({ options, onSelect, required }) => {
+const Dropdown = ({ options, onSelect}) => {
   // État pour suivre si le menu déroulant est ouvert ou fermé
   const [isOpen, setIsOpen] = useState(false); 
-  
-   // État pour stocker l'option sélectionnée
+  // État pour stocker l'option sélectionnée
   const [selectedOption, setSelectedOption] = useState(null);
+  
+   // Sélectionner automatiquement la première option
+   useEffect(() => {
+    if (options.length > 0 && !selectedOption) {
+      setSelectedOption(options[0]); // Sélectionner la première option par défaut
+      onSelect(options[0]); // Notifier le parent de la sélection
+    }
+  }, [options, selectedOption, onSelect]);
+  
+
 
   const handleToggle = () => {
     setIsOpen(!isOpen);// Inverser l'état d'ouverture (ouvrir si fermé, fermer si ouvert)
@@ -25,7 +34,7 @@ const Dropdown = ({ options, onSelect, required }) => {
     
     <div className="dropdown" onClick={handleToggle}>
       <div className="dropdown-selected">
-        {selectedOption ? selectedOption.name : 'Select a state'}
+        {selectedOption && selectedOption.name}
       </div>
       <span className={`dropdown-icon ${isOpen ? 'open' : ''}`}>&#9662;</span>
     </div>

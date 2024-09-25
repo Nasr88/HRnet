@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 import "./employeeList.css";
+import { states } from "../../datas/states";
 
 function EmployeeList() {
   const [employees, setEmployees] = useState([]);
@@ -27,26 +28,38 @@ function EmployeeList() {
   }, []);
 
   const columns = [
-    { name: "First Name", selector: (row) => row.FirstName, sortable: true },
-    { name: "Last Name", selector: (row) => row.LastName, sortable: true },
-    { name: "Date of Birth", selector: (row) => new Date(row.BirthDate).toLocaleDateString(), sortable: true },
-    { name: "Start Date", selector: (row) => new Date(row.StartDate).toLocaleDateString(), sortable: true },
-    { name: "Street", selector: (row) => row.Adress.Street, sortable: true },
-    { name: "City", selector: (row) => row.Adress.City, sortable: true },
-    { name: "State", selector: (row) => row.Adress.State, sortable: true },
-    { name: "Zip Code", selector: (row) => row.Adress.ZipCode, sortable: true },
-    { name: "Department", selector: (row) => row.Departement, sortable: true },
+    { name: "First Name", selector: (row) => row.FirstName ?? '', sortable: true },
+    { name: "Last Name", selector: (row) => row.LastName ?? '', sortable: true },
+    { name: "Start Date", selector: (row) => new Date(row.StartDate).toLocaleDateString() ?? '', sortable: true },
+    { name: "Department", selector: (row) => row.Departement, sortable: true }, 
+    { name: "Date of Birth", selector: (row) => new Date(row.BirthDate).toLocaleDateString() ?? '', sortable: true },
+    
+    { name: "Street", selector: (row) => row.Adress?.Street ?? '', sortable: true },
+    { name: "City", selector: (row) => row.Adress?.City ?? '', sortable: true },
+    { name: "State",  selector: (row) => {
+        // Chercher l'abréviation correspondant au nom de l'état
+        const state = states.find(s => s.name === row.Adress?.State);
+        // Retourner l'abréviation ou un texte par défaut si l'état n'est pas trouvé
+        return state?.abbreviation ?? 'AL'; 
+      },
+      sortable: true },
+    { name: "Zip Code", selector: (row) => row.Adress?.ZipCode ?? '', sortable: true },    
+    
   ];
 
 // regrouper toutes les valeurs de l'employé dans une seule chaîne et vérifier si le texte de recherche y est inclus.
   const filteredData = employees.filter(employee => {
     // convertir les dates stockées en chaînes de caractères:
-    const formattedBirthDate = new Date(employee.BirthDate).toLocaleDateString();
-    const formattedStartDate = new Date(employee.StartDate).toLocaleDateString();
+    
+    const formattedBirthDate = employee?.BirthDate 
+    ? new Date(employee.BirthDate).toLocaleDateString() 
+    : '';
+    const formattedStartDate = employee?.startDate ? new Date(employee?.StartDate).toLocaleDateString() : '';
     const employeeData = `
-    ${employee.FirstName} ${employee.LastName} ${employee.Departement} 
-    ${employee.Adress.Street} ${employee.Adress.City} ${employee.Adress.State} ${employee.Adress.ZipCode}
-  `.toLowerCase();
+    ${employee?.FirstName ?? ''} ${employee?.LastName ?? ''} ${employee?.Departement ?? ''} 
+    ${employee?.Address?.Street ?? ''} ${employee?.Address?.City ?? ''} 
+    ${states.find(s => s.name === employee.Adress?.State)?.abbreviation ?? ''} ${employee?.Address?.ZipCode ?? ''}
+    `.toLowerCase();
 
   return (
   employeeData.includes(searchText.toLowerCase())||
@@ -68,7 +81,8 @@ function EmployeeList() {
       <DataTable
         columns={columns} // Afficher les colonnes définies
         data={filteredData} // Utiliser les données parsées dans le tableau
-        pagination
+        paginationPerPage={10} // Nombre d'éléments par page
+        paginationRowsPerPageOptions={[5, 10, 20, 30]} // Options pour l'utilisateur
         noDataComponent={<div style={{ textAlign: 'center', padding: '10px' }}>No data available</div>} // Message personnalisé
       />
     </div>

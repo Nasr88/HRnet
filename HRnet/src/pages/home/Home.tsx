@@ -7,44 +7,21 @@ import { states } from "../../datas/states";
 import { departments } from "../../datas/departments";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { registerLocale } from "react-datepicker";
-import {fr} from "date-fns/locale/fr";  // Importe la localisation française
 import { storageManagement } from '../../helper/storageManagement'; // Importez la classe
 import AlertModal from "../../components/alertModal/AlertModal";
-import { differenceInYears } from "date-fns";
 
  // Instance de la classe storageManagement
  const storage = new storageManagement();
 
-// Enregistre la localisation française
-registerLocale("fr", fr);
+
 
 export default function Home() {
   // Initialise l'état avec un objet de type IEmployee ou null
   const [employee, setEmployee] = useState<IEmployee | null>(null);
 
   const [modalMessage, setModalMessage] = useState(''); 
+  
 
-
-  /******************pour vérifier que l'employee a min 18 ans****************/
-  const [errorMessage, setErrorMessage] = useState('');
-
-  const handleBirthDateChange = (date) => {
-    const today = new Date();
-    const age = differenceInYears(today, date);
-
-    // Vérifier si l'âge est inférieur à 18 ans
-    if (age < 18) {
-      setErrorMessage("L'employé doit avoir au moins 18 ans.");
-    } else {
-      setErrorMessage(""); // Réinitialiser le message d'erreur s'il a plus de 18 ans
-      setEmployee({
-        ...employee,
-        BirthDate: date
-      });
-    }
-  };
-/*******************************************************************************/
   // Fonction pour gérer les changements dans le prénom
   const onChangeFirstName = (e) => {
     
@@ -65,11 +42,24 @@ export default function Home() {
     }
   };
 
+  const onSelectState = (selected)=>{
+    
+      setEmployee({
+        ...employee,
+        Adress: {
+          ...employee?.Adress,
+          State: selected.name
+        }
+      });
+   
+  }
+
   // Fonction pour créer ou ajouter un employé au localStorage
-  const createEmployee = () => {
+  const createEmployee = (e) => {
     storage.addEmployee(employee); // Ajoute l'employé au localStorage
     console.log("Employee saved successfully!");
     setModalMessage("Employee saved successfully!"); // Affiche la modal
+    e.preventDefault();
     setEmployee(null);
   };
 
@@ -86,7 +76,7 @@ export default function Home() {
         id="first-name"
         onChange={onChangeFirstName}
         value={employee?.FirstName || ""}
-        required
+       
       />
 
       <label htmlFor="last-name">Last Name</label>
@@ -95,18 +85,28 @@ export default function Home() {
         id="last-name"
         onChange={onChangeLastName}
         value={employee?.LastName || ""}
-        required
+        
       />
 
       <label>Date of Birth</label>
       <DatePicker className="startDate"
         selected={employee?.BirthDate || null}
-        onChange={handleBirthDateChange}
-        dateFormat="dd/MM/yyyy"
-        placeholderText="Sélectionner une date"
+        onChange={(date: Date) => {
+         
+             setEmployee({
+              ...employee,
+              BirthDate: date
+            });
+          
+        }}
+        dateFormat="MM/dd/yyyy"
+        placeholderText=""
         isClearable={true}
-        locale="fr"  // Applique la localisation française
-        required
+        showMonthDropdown             // Affiche un menu déroulant pour les mois
+        showYearDropdown            // Affiche le menu déroulant pour les années
+        yearDropdownItemNumber={7}  // Nombre d'années à afficher dans le dropdown
+        scrollableYearDropdown      // Permet de rendre le dropdown d'année scrollable
+        dropdownMode="select"         // Rend les dropdowns de mois et d'années en mode 'select'
       />
 
        <label>Start Date</label>
@@ -118,12 +118,15 @@ export default function Home() {
               StartDate: date, // Met à jour avec une seule date
             });
         }}
-        dateFormat="dd/MM/yyyy"
-        placeholderText="Sélectionner une date"
+        dateFormat="MM/dd/yyyy"
+        placeholderText=""
         isClearable={true}
-        locale="fr"  // Applique la localisation française
-        required
-      /> 
+        showMonthDropdown             // Affiche un menu déroulant pour les mois
+        showYearDropdown            // Affiche le menu déroulant pour les années
+        yearDropdownItemNumber={7}  // Nombre d'années à afficher dans le dropdown
+        scrollableYearDropdown      // Permet de rendre le dropdown d'année scrollable
+        dropdownMode="select"         // Rend les dropdowns de mois et d'années en mode 'select'
+    /> 
 
       <fieldset className="address">
         <legend>Address</legend>
@@ -143,7 +146,7 @@ export default function Home() {
             }
           }}
           value={employee?.Adress?.Street || ""}
-          required
+         
         />
 
         <label htmlFor="city">City</label>
@@ -162,22 +165,13 @@ export default function Home() {
             }
           }}
           value={employee?.Adress?.City || ""}
-          required
+          
         />
 
         <label>State</label>
         <DropdownComponent 
-        options={states} 
-        onSelect={(selected) => {
-          setEmployee({
-            ...employee,
-            Adress: {
-              ...employee?.Adress,
-              State: selected.name
-            }
-          });
-        }} 
-        required={true}
+          options={states} 
+          onSelect={onSelectState} 
         />
 
 <label htmlFor="zip-code">Zip Code</label>
@@ -208,7 +202,6 @@ export default function Home() {
               Departement:selected.name
           });
         }} 
-        required={true}
       />
       <button type="submit">Save</button>
       
