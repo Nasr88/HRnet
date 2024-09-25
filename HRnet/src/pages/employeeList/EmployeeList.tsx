@@ -54,7 +54,7 @@ function EmployeeList() {
     const formattedBirthDate = employee?.BirthDate 
     ? new Date(employee.BirthDate).toLocaleDateString() 
     : '';
-    const formattedStartDate = employee?.startDate ? new Date(employee?.StartDate).toLocaleDateString() : '';
+    const formattedStartDate = employee?.StartDate ? new Date(employee?.StartDate).toLocaleDateString() : '';
     const employeeData = `
     ${employee?.FirstName ?? ''} ${employee?.LastName ?? ''} ${employee?.Departement ?? ''} 
     ${employee?.Address?.Street ?? ''} ${employee?.Address?.City ?? ''} 
@@ -81,8 +81,9 @@ function EmployeeList() {
       <DataTable
         columns={columns} // Afficher les colonnes définies
         data={filteredData} // Utiliser les données parsées dans le tableau
+        pagination // Activer la pagination
         paginationPerPage={10} // Nombre d'éléments par page
-        paginationRowsPerPageOptions={[5, 10, 20, 30]} // Options pour l'utilisateur
+        paginationRowsPerPageOptions={[10, 25, 50, 100]} // Options pour l'utilisateur
         noDataComponent={<div style={{ textAlign: 'center', padding: '10px' }}>No data available</div>} // Message personnalisé
       />
     </div>
