@@ -9,6 +9,8 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { storageManagement } from '../../helper/storageManagement'; // Importez la classe
 import AlertModal from "../../components/alertModal/AlertModal";
+import { useDispatch } from "react-redux";
+import { addEmployee } from "../../redux/employeeSlice";
 
  // Instance de la classe storageManagement
  const storage = new storageManagement();
@@ -21,7 +23,7 @@ export default function Home() {
 
   const [modalMessage, setModalMessage] = useState(''); 
   
-
+  const dispatch = useDispatch();  // Hook Redux pour dispatcher les actions
   // Fonction pour gérer les changements dans le prénom
   const onChangeFirstName = (e) => {
     
@@ -56,13 +58,19 @@ export default function Home() {
 
   // Fonction pour créer ou ajouter un employé au localStorage
   const createEmployee = (e) => {
-    storage.addEmployee(employee); // Ajoute l'employé au localStorage
-    console.log("Employee saved successfully!");
-    setModalMessage("Employee saved successfully!"); // Affiche la modal
+    // storage.addEmployee(employee); // Ajoute l'employé au localStorage
+    // console.log("Employee saved successfully!");
+    // setModalMessage("Employee saved successfully!"); // Affiche la modal
+    // e.preventDefault();
+    // setEmployee(null);
     e.preventDefault();
-    setEmployee(null);
+    if (employee) {
+      dispatch(addEmployee(employee));  // Envoie l'action pour ajouter l'employé au store Redux
+      console.log("Employee saved successfully!");
+      setModalMessage("Employee saved successfully!");
+      setEmployee(null);  // Réinitialise le formulaire
   };
-
+}
   const closeModal = () => {
     setModalMessage(''); // Ferme la modal en effaçant le message
   };
